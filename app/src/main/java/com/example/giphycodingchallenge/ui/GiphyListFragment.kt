@@ -2,13 +2,15 @@ package com.example.giphycodingchallenge.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.giphycodingchallenge.R
+import com.example.giphycodingchallenge.adapter.GiphyAdapter
+import com.example.giphycodingchallenge.model.Giphy
+import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 
 
 class GiphyListFragment: Fragment() {
@@ -21,15 +23,13 @@ class GiphyListFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_list_giphy, container, false)
-        view.findViewById<Button>(R.id.giphy1).setOnClickListener {
-            Log.d(LOG_TAG, "giphy1")
-            startActivity(Intent(this@GiphyListFragment.activity, DetailActivity::class.java).putExtra("name", "giphy1"))
-        }
-        view.findViewById<Button>(R.id.giphy2).setOnClickListener {
-            Log.d(LOG_TAG, "giphy2")
-            startActivity(Intent(this@GiphyListFragment.activity, DetailActivity::class.java).putExtra("name", "giphy2"))
-        }
+
+        val data = arrayListOf(Giphy("coucou",""),
+            Giphy("moumou",""),
+            Giphy("zouzou",""))
+
+        view.giphys.layoutManager = GridLayoutManager(this.activity, 3)
+        view.giphys.adapter = GiphyAdapter(this.activity!!.applicationContext, data)
         return view
     }
-
 }

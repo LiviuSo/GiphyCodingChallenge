@@ -5,15 +5,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-
-    <Button android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giphy 1"
-            android:id="@+id/giphy1"/>
+            android:id="@+id/giphys"/>
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Giphy 2"
-            android:id="@+id/giphy2"/>
 
 </LinearLayout>
