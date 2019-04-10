@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Giphy Coding Challenge</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="giphy_image">giphy image</string>
+    <string name="giphy_image">Giphy preview image</string>
+    <string name="giphy_image_details">Giphy image detrails</string>
+
 </resources>

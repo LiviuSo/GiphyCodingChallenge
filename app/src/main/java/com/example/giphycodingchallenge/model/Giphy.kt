@@ -1,3 +1,7 @@
 package com.example.giphycodingchallenge.model
 
-data class Giphy(val name: String, val imageUrl: String)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Giphy(val name: String, val imageUrl: String) : Parcelable

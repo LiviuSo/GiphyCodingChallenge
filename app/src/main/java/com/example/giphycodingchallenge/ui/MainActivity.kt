@@ -3,6 +3,8 @@ package com.example.giphycodingchallenge.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.giphycodingchallenge.R
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 /**
  * GIPHY's ​GIF​ library is the largest in the world and includes millions of original GIFs directly from
@@ -37,6 +39,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(toolbarCustom)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setListFragment()
     }

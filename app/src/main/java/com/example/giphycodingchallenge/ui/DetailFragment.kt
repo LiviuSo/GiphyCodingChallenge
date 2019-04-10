@@ -9,22 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.giphycodingchallenge.R
+import com.example.giphycodingchallenge.model.Giphy
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
-private const val ARG_NAME = "name"
+private const val ARG_ITEM = "item"
 
 /**
  * Giphy details
  */
 class DetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
+    private var param: Giphy? = null
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_NAME)
+            param = it.getParcelable(ARG_ITEM)
         }
     }
 
@@ -34,7 +36,11 @@ class DetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false).apply {
-            testTx.text = param1
+            testTx.text = param?.name ?: ""
+            Picasso
+                .with(this@DetailFragment.activity)
+                .load(param?.imageUrl)
+                .into(imageDetails)
         }
     }
 
@@ -64,10 +70,10 @@ class DetailFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String) =
+        fun newInstance(item: Giphy?) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_NAME, param1)
+                    putParcelable(ARG_ITEM, item)
                 }
             }
     }

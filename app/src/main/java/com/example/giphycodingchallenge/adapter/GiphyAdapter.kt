@@ -3,15 +3,15 @@ package com.example.giphycodingchallenge.adapter
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.model.Giphy
 import com.example.giphycodingchallenge.ui.DetailActivity
-import com.example.giphycodingchallenge.util.Contants.EXTRA_NAME
+import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.giphy.view.*
 
 
@@ -31,18 +31,21 @@ class GiphyAdapter(private val context: Context, private val data: ArrayList<Gip
         return data.size
     }
 
-    class ImageHolder(val v: View) : RecyclerView.ViewHolder(v) {
+    class ImageHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         fun inject(item: Giphy, context: Context) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                v.image.background = ContextCompat.getDrawable(context, R.drawable.placeholder_image)
-            } else {
-                v.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.placeholder_image))
-            }
+            val imageView = v.image as ImageView
+            Picasso
+                .with(context).isLoggingEnabled = true
+            Picasso.with(context)
+                .load(item.imageUrl)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.error)
+                .into(imageView)
             v.name.text = item.name
             v.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.flags = FLAG_ACTIVITY_NEW_TASK
-                intent.putExtra(EXTRA_NAME, item.name)
+                intent.putExtra(EXTRA_ITEM, item)
                 context.startActivity(intent)
             }
         }
