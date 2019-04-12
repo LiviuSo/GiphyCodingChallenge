@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Giphy(val name: String, val imageUrl: String) : Parcelable
+data class GifTest(val title: String, val url: String) : Parcelable

@@ -1,9 +1,12 @@
 package com.example.giphycodingchallenge.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.giphycodingchallenge.R
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.giphycodingchallenge.network.RetrofitClient
+import com.example.giphycodingchallenge.network.service.GiphyWebService
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -14,7 +17,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * messaging, chat, dating, creation, community, and more.
  *
  *
- * Write an Image Searching Android App using the following endpoints. You can find the Giphy documentation here: ​Giphy Documentation
+ * Write an Image Searching Android App using the following endpoints. You can find the Gif documentation here: ​Giphy Documentation
  * - Trending: http://api.giphy.com/v1/gifs/trending?api_key=dc6zaTOxFJmzC
  * - Search: http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC
  *
@@ -44,10 +47,29 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         setListFragment()
+
+
+        // test
+        GiphyWebService
+            .getGifs()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+            Log.d(LOG, "Success getGifs()")
+                if(it == null) {
+                    Log.d(LOG, "no res")
+                }
+                Log.d(LOG, "${it.toString().length}")
+        }, {
+            Log.d(LOG, "Error getGifs() $it")
+        })
     }
 
     private fun setListFragment() {
         supportFragmentManager.beginTransaction().add(R.id.listFragment, GiphyListFragment.instance()).commit()
+    }
+
+    companion object {
+        const val LOG = "main_activcity"
     }
 }
 

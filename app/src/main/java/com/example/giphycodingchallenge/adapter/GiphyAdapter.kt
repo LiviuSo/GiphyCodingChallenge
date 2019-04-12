@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giphycodingchallenge.R
-import com.example.giphycodingchallenge.model.Giphy
 import com.example.giphycodingchallenge.ui.DetailActivity
+import com.example.giphycodingchallenge.model.GifTest
 import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.giphy.view.*
 
 
-class GiphyAdapter(private val context: Context, private val data: ArrayList<Giphy>)
+class GiphyAdapter(private val context: Context, private val data: ArrayList<GifTest>)
     : RecyclerView.Adapter<GiphyAdapter.ImageHolder>() {
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
@@ -32,16 +32,16 @@ class GiphyAdapter(private val context: Context, private val data: ArrayList<Gip
     }
 
     class ImageHolder(private val v: View) : RecyclerView.ViewHolder(v) {
-        fun inject(item: Giphy, context: Context) {
+        fun inject(item: GifTest, context: Context) {
             val imageView = v.image as ImageView
             Picasso
                 .with(context).isLoggingEnabled = true
             Picasso.with(context)
-                .load(item.imageUrl)
+                .load(item.url)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error)
                 .into(imageView)
-            v.name.text = item.name
+            v.name.text = item.title
             v.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.flags = FLAG_ACTIVITY_NEW_TASK
