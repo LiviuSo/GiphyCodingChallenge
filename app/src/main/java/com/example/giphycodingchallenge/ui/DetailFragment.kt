@@ -3,13 +3,11 @@ package com.example.giphycodingchallenge.ui
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.fragment.app.Fragment
 import com.example.giphycodingchallenge.R
-import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.model.GifTest
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -20,7 +18,6 @@ private const val ARG_ITEM = "item"
  * Gif details
  */
 class DetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param: GifTest? = null
     private var listener: OnFragmentInteractionListener? = null
 

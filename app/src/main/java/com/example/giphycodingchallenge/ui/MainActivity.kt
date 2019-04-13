@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
 
         // test
-        GiphyWebService
+        val d = GiphyWebService
             .getGifs()
             .subscribeOn(Schedulers.io())
             .subscribe({
@@ -92,5 +92,36 @@ class MainActivity : AppCompatActivity() {
 *
 * list: activity + fragment
 * details: activity + fragment
+*
+*
+* UI
+*   layout
+*       ConstraintLayout
+*       LinearLayout
+*   findById
+*       androidx
+*
+* arch
+*   MVVM
+*   Repository
+*   Pagination
+*
+* DB
+*   Room
+*   SQLite
+*
+* network
+*   Retrofit
+*       json
+*           Moshi
+*           Gson
+*       image
+*           Picasso
+*           Glade
+*   OkHttp
+*
+*
+*
+*
 *
 * */

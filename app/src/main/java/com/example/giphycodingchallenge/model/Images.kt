@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Images( @SerializedName("fixed_height_still") val fixedHeightStill: ImageFormat,
+data class Images( @SerializedName("fixed_height_still") val fixedHeightStill: ImageFormat,
               @SerializedName("original_still") val originalStill: ImageFormat,
               @SerializedName("fixed_width") val fixedWidth: ImageFormat,
               @SerializedName("fixed_height_small_still") val fixedHeightSmallStill: ImageFormat,
