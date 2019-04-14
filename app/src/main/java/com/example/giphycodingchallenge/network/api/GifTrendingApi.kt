@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-interface GiphyTrendingApi {
+interface GifTrendingApi {
 
     /**
      * http://api.giphy.com?api_key={apiKey}

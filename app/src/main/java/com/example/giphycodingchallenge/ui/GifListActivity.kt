@@ -3,10 +3,8 @@ package com.example.giphycodingchallenge.ui
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import com.example.giphycodingchallenge.R
-import com.example.giphycodingchallenge.network.RetrofitClient
-import com.example.giphycodingchallenge.network.service.GiphyWebService
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -37,39 +35,27 @@ import kotlinx.android.synthetic.main.toolbar.*
  * Note:​ You are encouraged to utilize open source libraries. The UI design is up to you!
  *
  */
-class MainActivity : AppCompatActivity() {
+class GifListActivity : AppCompatActivity(), LifecycleOwner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.d(LOG, "GifListActivity $this: onCreate()")
+
         setSupportActionBar(toolbarCustom)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
         setListFragment()
-
-
-        // test
-        val d = GiphyWebService
-            .getGifs()
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-            Log.d(LOG, "Success getGifs()")
-                if(it == null) {
-                    Log.d(LOG, "no res")
-                }
-                Log.d(LOG, "${it.toString().length}")
-        }, {
-            Log.d(LOG, "Error getGifs() $it")
-        })
     }
 
     private fun setListFragment() {
-        supportFragmentManager.beginTransaction().add(R.id.listFragment, GiphyListFragment.instance()).commit()
+        GifListFragment.instance().run {
+            supportFragmentManager.beginTransaction().add(R.id.listFragment, this, this.toString()).commit()
+        }
     }
 
     companion object {
-        const val LOG = "main_activcity"
+        const val LOG = "giphy_list_activity"
     }
 }
 

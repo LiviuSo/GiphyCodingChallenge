@@ -1,12 +1,11 @@
 package com.example.giphycodingchallenge.network.api
 
-import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.model.Response
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface GiphySearchApi {
+interface GifSearchApi {
 
     /**
      * http://api.giphy.com/v1/gifs/search?q={searchKey}&api_key={apiKey}

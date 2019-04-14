@@ -5,7 +5,7 @@ import com.example.giphycodingchallenge.network.RetrofitClient
 import com.example.giphycodingchallenge.util.Constants.API_KEY
 import io.reactivex.Observable
 
-object GiphyWebService {
+object GifWebService {
 
     fun getGifs(): Observable<Response> {
         return RetrofitClient

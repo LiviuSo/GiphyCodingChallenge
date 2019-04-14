@@ -8,7 +8,7 @@ import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.model.GifTest
 import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
 
-class DetailActivity : AppCompatActivity(), DetailFragment.OnFragmentInteractionListener {
+class GifDetailActivity : AppCompatActivity(), DetailFragment.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
