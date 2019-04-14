@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.ui.GifDetailActivity
 import com.example.giphycodingchallenge.model.GifTest
 import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.giphy.view.*
 
 
@@ -34,9 +34,7 @@ class GifAdapter(private val context: Context, private val data: ArrayList<GifTe
     class ImageHolder(private val v: View) : RecyclerView.ViewHolder(v) {
         fun inject(item: GifTest, context: Context) {
             val imageView = v.image as ImageView
-            Picasso
-                .with(context).isLoggingEnabled = true
-            Picasso.with(context)
+            Glide.with(context)
                 .load(item.url)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.error)

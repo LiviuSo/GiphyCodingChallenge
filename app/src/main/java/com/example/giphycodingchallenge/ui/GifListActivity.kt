@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.toolbar.*
  * Note:​ You are encouraged to utilize open source libraries. The UI design is up to you!
  *
  */
-class GifListActivity : AppCompatActivity(), LifecycleOwner {
+class GifListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
