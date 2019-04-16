@@ -73,6 +73,7 @@ class DetailFragment : Fragment() {
         fun newInstance(item: GifTest?) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
+                    retainInstance = true
                     putParcelable(ARG_ITEM, item)
                 }
             }

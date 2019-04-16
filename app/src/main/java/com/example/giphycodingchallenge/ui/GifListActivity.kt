@@ -1,10 +1,15 @@
 package com.example.giphycodingchallenge.ui
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.Surface
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleOwner
 import com.example.giphycodingchallenge.R
+import com.example.giphycodingchallenge.util.isOrientedLanscape
+import com.example.giphycodingchallenge.util.isTablet
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -37,6 +42,8 @@ import kotlinx.android.synthetic.main.toolbar.*
  */
 class GifListActivity : AppCompatActivity() {
 
+    private var isLandscape: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,17 +52,43 @@ class GifListActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarCustom)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        setListFragment()
+
+        isLandscape = isOrientedLanscape()
+
+        if (isTablet()) {
+            Log.d(LOG, "GifListActivity: tablet detected")
+            setFragments(isLandscape)
+        } else {
+            Log.d(LOG, "GifListActivity: phone detected")
+            setListFragment(isLandscape)
+        }
     }
 
-    private fun setListFragment() {
-        GifListFragment.instance().run {
-            supportFragmentManager.beginTransaction().add(R.id.listFragment, this, this.toString()).commit()
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d(LOG, "GifListActivity ($this): onConfigurationChanged")
+        isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+        val listFrag = supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment
+        listFrag.onConfigChanged(isLandscape)
+        listFrag.let { supportFragmentManager.beginTransaction().detach(it).attach(listFrag).commit() }
+    }
+
+
+    private fun setFragments(landscape: Boolean) {
+        // todo
+        // set both list and detail frags
+        // default to first gif
+    }
+
+    private fun setListFragment(landscape: Boolean) {
+        GifListFragment.instance(landscape).run {
+            supportFragmentManager.beginTransaction().add(R.id.listFragment, this, GIF_LIST_FRAG_TAG).commit()
         }
     }
 
     companion object {
         const val LOG = "giphy_list_activity"
+        const val GIF_LIST_FRAG_TAG = "GifListFragment"
     }
 }
 
