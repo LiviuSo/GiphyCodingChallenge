@@ -1,15 +1,16 @@
 package com.example.giphycodingchallenge.ui
 
-import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.Surface
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.giphycodingchallenge.R
+import com.example.giphycodingchallenge.model.GifTest
+import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
 import com.example.giphycodingchallenge.util.isOrientedLanscape
 import com.example.giphycodingchallenge.util.isTablet
+import com.example.giphycodingchallenge.util.rebindFragment
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -46,49 +47,87 @@ class GifListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         Log.d(LOG, "GifListActivity $this: onCreate()")
 
-        setSupportActionBar(toolbarCustom)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         isLandscape = isOrientedLanscape()
-
         if (isTablet()) {
             Log.d(LOG, "GifListActivity: tablet detected")
+            if (isLandscape) {
+                setContentView(R.layout.activity_list_gif_landscape)
+            } else {
+                setContentView(R.layout.activity_list_gif_portrait)
+            }
             setFragments(isLandscape)
         } else {
             Log.d(LOG, "GifListActivity: phone detected")
+            setContentView(R.layout.activity_list_gif_phone)
             setListFragment(isLandscape)
         }
+
+        setSupportActionBar(toolbarCustom)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         Log.d(LOG, "GifListActivity ($this): onConfigurationChanged")
+
         isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
-        val listFrag = supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment
-        listFrag.onConfigChanged(isLandscape)
-        listFrag.let { supportFragmentManager.beginTransaction().detach(it).attach(listFrag).commit() }
+        if (isTablet()) {
+            if (isLandscape) {
+                setContentView(R.layout.activity_list_gif_landscape)
+            } else {
+                setContentView(R.layout.activity_list_gif_portrait)
+            }
+            rebindFragment(GIF_LIST_FRAG_TAG)
+            rebindFragment(GIF_DETAILS_FRAG_TAG)
+        } else {
+            val frag = rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment
+            frag.onConfigChanged(isLandscape)
+        }
     }
 
 
     private fun setFragments(landscape: Boolean) {
-        // todo
         // set both list and detail frags
-        // default to first gif
+        val fragList = GifListFragment.instance(landscape, isTablet())
+        val fragDetails = GifDetailFragment.instance(null)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.listFragmentHolder, fragList, GIF_LIST_FRAG_TAG)
+            .replace(R.id.detailsFragmentHolder, fragDetails, GIF_DETAILS_FRAG_TAG)
+            .commit()
     }
 
     private fun setListFragment(landscape: Boolean) {
-        GifListFragment.instance(landscape).run {
-            supportFragmentManager.beginTransaction().add(R.id.listFragment, this, GIF_LIST_FRAG_TAG).commit()
+        GifListFragment.instance(landscape, isTablet()).run {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.listFragmentHolder, this, GIF_LIST_FRAG_TAG)
+                .commit()
         }
+    }
+
+    fun launchDetailActivity(item: GifTest) {
+        Log.d(LOG, "GifListActivity: launchDetailActivity($item)")
+        val intent = Intent(this, GifDetailActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra(EXTRA_ITEM, item)
+        startActivity(intent)
+    }
+
+    fun replaceDetailFragment(item: GifTest) {
+        Log.d(LOG, "GifListActivity: replaceDetailFragment($item)")
+        val frag = GifDetailFragment.instance(item)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.detailsFragmentHolder, frag, GIF_DETAILS_FRAG_TAG)
+            .commit()
     }
 
     companion object {
         const val LOG = "giphy_list_activity"
         const val GIF_LIST_FRAG_TAG = "GifListFragment"
+        const val GIF_DETAILS_FRAG_TAG = "GifDetailsFragment"
     }
 }
 

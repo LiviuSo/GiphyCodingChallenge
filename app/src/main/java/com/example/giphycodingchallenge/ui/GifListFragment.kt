@@ -1,6 +1,5 @@
 package com.example.giphycodingchallenge.ui
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +15,7 @@ import com.example.giphycodingchallenge.adapter.GifAdapter
 import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.model.GifTest
 import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_LANDSCAPE
+import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_TABLET
 import com.example.giphycodingchallenge.viewmodel.GifViewModel
 import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 
@@ -24,14 +24,23 @@ class GifListFragment : Fragment() {
 
     private lateinit var viewModel: GifViewModel
     private var isLandscape: Boolean = false
+    private var isTablet: Boolean = false
 
+    private val onClickPhone: (GifTest) -> Unit = { item ->
+        (activity as GifListActivity).launchDetailActivity(item)
+    }
+
+    private val onClickTablet: (GifTest) -> Unit = { item ->
+        (activity as GifListActivity).replaceDetailFragment(item)
+    }
 
     companion object {
         private const val LOG = "giphy_list_fragment"
-        fun instance(landscape: Boolean) = GifListFragment().apply {
+        fun instance(landscape: Boolean, tablet: Boolean) = GifListFragment().apply {
             retainInstance = true
             arguments = Bundle().apply {
                 putBoolean(EXTRA_IS_LANDSCAPE, landscape)
+                putBoolean(EXTRA_IS_TABLET, tablet)
             }
         }
     }
@@ -41,6 +50,7 @@ class GifListFragment : Fragment() {
 
         super.onCreate(savedInstanceState)
         isLandscape = arguments?.getBoolean(EXTRA_IS_LANDSCAPE) ?: false
+        isTablet = arguments?.getBoolean(EXTRA_IS_TABLET) ?: false
 
         viewModel = ViewModelProviders.of(this).get(GifViewModel::class.java)
         viewModel.getGifs()
@@ -64,7 +74,8 @@ class GifListFragment : Fragment() {
                 gif.forEach {
                     data.add(GifTest(it.title, it.images.fixedHeight.url))
                 }
-                view.giphys.adapter = GifAdapter(MyApplication.myApplication, data)
+                view.giphys.adapter = GifAdapter(MyApplication.myApplication, data, isTablet,
+                    onClickPhone, onClickTablet)
             })
         return view
     }
@@ -72,5 +83,4 @@ class GifListFragment : Fragment() {
     fun onConfigChanged(landscape: Boolean) {
         isLandscape = landscape
     }
-
 }

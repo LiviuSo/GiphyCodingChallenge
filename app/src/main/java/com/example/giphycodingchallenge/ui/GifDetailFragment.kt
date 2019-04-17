@@ -17,9 +17,9 @@ private const val ARG_ITEM = "item"
 /**
  * Gif details
  */
-class DetailFragment : Fragment() {
+class GifDetailFragment : Fragment() {
     private var param: GifTest? = null
-    private var listener: OnFragmentInteractionListener? = null
+//    private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class DetailFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false).apply {
             testTx.text = param?.title ?: ""
-            this@DetailFragment.activity?.let {
+            this@GifDetailFragment.activity?.let {
                 Glide
                     .with(it)
                     .load(param?.url)
@@ -44,34 +44,34 @@ class DetailFragment : Fragment() {
         }
     }
 
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(uri: Uri)
-    }
+//    fun onButtonPressed(uri: Uri) {
+//        listener?.onFragmentInteraction(uri)
+//    }
+//
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is OnFragmentInteractionListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+//        }
+//    }
+//
+//    override fun onDetach() {
+//        super.onDetach()
+//        listener = null
+//    }
+//
+//
+//    interface OnFragmentInteractionListener {
+//        fun onFragmentInteraction(uri: Uri)
+//    }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(item: GifTest?) =
-            DetailFragment().apply {
+        fun instance(item: GifTest?) =
+            GifDetailFragment().apply {
                 arguments = Bundle().apply {
                     retainInstance = true
                     putParcelable(ARG_ITEM, item)
