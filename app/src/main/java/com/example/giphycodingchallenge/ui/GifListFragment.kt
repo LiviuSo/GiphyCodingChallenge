@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 
 class GifListFragment : Fragment() {
 
+    private lateinit var data: ArrayList<GifTest>
     private lateinit var viewModel: GifViewModel
     private var isLandscape: Boolean = false
     private var isTablet: Boolean = false
@@ -70,17 +71,24 @@ class GifListFragment : Fragment() {
 
         viewModel.gifs.observe(this,
             Observer<List<Gif>> { gif ->
-                val data = arrayListOf<GifTest>()
+                data = arrayListOf()
                 gif.forEach {
                     data.add(GifTest(it.title, it.images.fixedHeight.url))
                 }
                 view.giphys.adapter = GifAdapter(MyApplication.myApplication, data, isTablet,
                     onClickPhone, onClickTablet)
+                if(isTablet) {
+                    selectFirst()
+                }
             })
         return view
     }
 
     fun onConfigChanged(landscape: Boolean) {
         isLandscape = landscape
+    }
+
+    fun selectFirst() {
+        onClickTablet(data.first())
     }
 }

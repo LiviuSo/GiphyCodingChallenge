@@ -15,17 +15,17 @@
                   android:orientation="horizontal"
                   android:baselineAligned="false">
         <FrameLayout
-                android:layout_width="400dp"
-                android:layout_height="match_parent"
-                android:id="@+id/listFragmentHolder"/>
-
-        <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/detailsFragmentHolder"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"/>
-    </LinearLayout>
+                android:id="@+id/listFragmentHolder"
+                android:layout_weight="1"/>
 
+        <FrameLayout
+                android:layout_width="400dp"
+                android:layout_height="match_parent"
+                android:id="@+id/detailsFragmentHolder"
+                android:background="@color/colorPrimaryDark"/>
+
+    </LinearLayout>
 
 </LinearLayout>

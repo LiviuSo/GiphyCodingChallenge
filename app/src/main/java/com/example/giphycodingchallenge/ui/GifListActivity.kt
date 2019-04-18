@@ -93,10 +93,10 @@ class GifListActivity : AppCompatActivity() {
     private fun setFragments(landscape: Boolean) {
         // set both list and detail frags
         val fragList = GifListFragment.instance(landscape, isTablet())
-        val fragDetails = GifDetailFragment.instance(null)
+//        val fragDetails = GifDetailFragment.instance(null)
         supportFragmentManager.beginTransaction()
             .replace(R.id.listFragmentHolder, fragList, GIF_LIST_FRAG_TAG)
-            .replace(R.id.detailsFragmentHolder, fragDetails, GIF_DETAILS_FRAG_TAG)
+//            .replace(R.id.detailsFragmentHolder, fragDetails, GIF_DETAILS_FRAG_TAG)
             .commit()
     }
 
