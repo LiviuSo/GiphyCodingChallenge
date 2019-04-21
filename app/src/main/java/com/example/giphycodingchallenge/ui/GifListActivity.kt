@@ -5,8 +5,9 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
-import com.example.giphycodingchallenge.model.GifTest
+import com.example.giphycodingchallenge.db.GifEntity
 import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
 import com.example.giphycodingchallenge.util.isOrientedLanscape
 import com.example.giphycodingchallenge.util.isTablet
@@ -49,7 +50,7 @@ class GifListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         Log.d(LOG, "GifListActivity $this: onCreate()")
-
+        Log.d(LOG, DebugDB.getAddressLog())
 
         isLandscape = isOrientedLanscape()
         if (isTablet()) {
@@ -108,7 +109,7 @@ class GifListActivity : AppCompatActivity() {
         }
     }
 
-    fun launchDetailActivity(item: GifTest) {
+    fun launchDetailActivity(item: GifEntity) {
         Log.d(LOG, "GifListActivity: launchDetailActivity($item)")
         val intent = Intent(this, GifDetailActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -116,7 +117,7 @@ class GifListActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun replaceDetailFragment(item: GifTest) {
+    fun replaceDetailFragment(item: GifEntity) {
         Log.d(LOG, "GifListActivity: replaceDetailFragment($item)")
         val frag = GifDetailFragment.instance(item)
         supportFragmentManager.beginTransaction()

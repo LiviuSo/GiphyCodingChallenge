@@ -13,25 +13,27 @@ import com.example.giphycodingchallenge.MyApplication
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.adapter.GifAdapter
 import com.example.giphycodingchallenge.model.Gif
-import com.example.giphycodingchallenge.model.GifTest
+import com.example.giphycodingchallenge.db.GifEntity
 import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_LANDSCAPE
 import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_TABLET
+import com.example.giphycodingchallenge.util.PreferenceHelper
+import com.example.giphycodingchallenge.util.isTimeToRefresh
 import com.example.giphycodingchallenge.viewmodel.GifViewModel
 import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 
 
 class GifListFragment : Fragment() {
 
-    private lateinit var data: ArrayList<GifTest>
+    private lateinit var data: List<GifEntity>
     private lateinit var viewModel: GifViewModel
     private var isLandscape: Boolean = false
     private var isTablet: Boolean = false
 
-    private val onClickPhone: (GifTest) -> Unit = { item ->
+    private val onClickPhone: (GifEntity) -> Unit = { item ->
         (activity as GifListActivity).launchDetailActivity(item)
     }
 
-    private val onClickTablet: (GifTest) -> Unit = { item ->
+    private val onClickTablet: (GifEntity) -> Unit = { item ->
         (activity as GifListActivity).replaceDetailFragment(item)
     }
 
@@ -70,11 +72,8 @@ class GifListFragment : Fragment() {
         )
 
         viewModel.gifs.observe(this,
-            Observer<List<Gif>> { gif ->
-                data = arrayListOf()
-                gif.forEach {
-                    data.add(GifTest(it.title, it.images.fixedHeight.url))
-                }
+            Observer<List<GifEntity>> { items ->
+                data = items
                 view.giphys.adapter = GifAdapter(MyApplication.myApplication, data, isTablet,
                     onClickPhone, onClickTablet)
                 if(isTablet) {

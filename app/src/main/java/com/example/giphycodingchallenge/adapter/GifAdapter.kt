@@ -7,16 +7,16 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.giphycodingchallenge.R
-import com.example.giphycodingchallenge.model.GifTest
+import com.example.giphycodingchallenge.db.GifEntity
 import kotlinx.android.synthetic.main.giphy.view.*
 
 
 class GifAdapter(
     private val context: Context,
-    private val data: ArrayList<GifTest>,
+    private val data: List<GifEntity>,
     private val isTablet: Boolean,
-    val onClickPhone: (GifTest) -> Unit,
-    val onClickTablet: (GifTest) -> Unit) : RecyclerView.Adapter<GifAdapter.ImageHolder>() {
+    val onClickPhone: (GifEntity) -> Unit,
+    val onClickTablet: (GifEntity) -> Unit) : RecyclerView.Adapter<GifAdapter.ImageHolder>() {
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
         val item = data[position]
@@ -32,7 +32,7 @@ class GifAdapter(
     }
 
     inner class ImageHolder(private val v: View) : RecyclerView.ViewHolder(v) {
-        fun inject(item: GifTest, context: Context) {
+        fun inject(item: GifEntity, context: Context) {
             val imageView = v.image as ImageView
             Glide.with(context)
                 .load(item.url)
