@@ -1,4 +1,4 @@
-package com.example.giphycodingchallenge.repository
+package com.example.giphycodingchallenge.data
 
 import androidx.annotation.CallSuper
 import io.reactivex.disposables.CompositeDisposable

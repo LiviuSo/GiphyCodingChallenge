@@ -1,5 +1,6 @@
 package com.example.giphycodingchallenge.db
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,4 +18,10 @@ interface GifDao {
 
     @Query("DELETE FROM gifs_table")
     fun deleteAll()
+
+    @Query("SELECT * from gifs_table")
+    fun getGifsPaging(): DataSource.Factory<Int, GifEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(gifs: List<GifEntity>)
 }

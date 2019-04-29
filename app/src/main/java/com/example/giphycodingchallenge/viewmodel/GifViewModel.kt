@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.giphycodingchallenge.db.GifEntity
-import com.example.giphycodingchallenge.model.Gif
-import com.example.giphycodingchallenge.repository.GifRepository
+import com.example.giphycodingchallenge.data.GifRepository
 
 class GifViewModel : ViewModel() {
 

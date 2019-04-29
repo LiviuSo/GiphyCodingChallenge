@@ -1,15 +1,13 @@
-package com.example.giphycodingchallenge.repository
+package com.example.giphycodingchallenge.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.giphycodingchallenge.db.GifDb
 import com.example.giphycodingchallenge.db.GifEntity
-import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.network.service.GifWebService
+import com.example.giphycodingchallenge.paging.GifsResponse
 import com.example.giphycodingchallenge.util.PreferenceHelper
 import com.example.giphycodingchallenge.util.isTimeToRefresh
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
