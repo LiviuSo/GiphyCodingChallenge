@@ -35,8 +35,8 @@ class PaginationActivity : AppCompatActivity() {
         paginationRecView.adapter = adapter
         viewModel.gifs.observe(this, Observer<PagedList<GifEntity>> {
             Log.d(LOG, "observing gifs")
-            showEmptyList(it?.size == 0)
             adapter.submitList(it)
+            showEmptyList(it?.size == 0)
         })
         viewModel.networkErrors.observe(this, Observer<String> {
             Log.d(LOG, "observing networkErrors")

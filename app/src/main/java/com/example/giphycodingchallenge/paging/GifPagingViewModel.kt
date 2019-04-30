@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 
 class GifPagingViewModel(val repository: GifsPagingRepository) : ViewModel() {
 
-    private val gifReponse = repository.getGifsResponse()
+    private val _gifReponse = repository.getGifsResponse()
 
-    val gifs = gifReponse.data
-    val networkErrors = gifReponse.networkErrors
+    val gifs = _gifReponse.data
+    val networkErrors = _gifReponse.networkErrors
 
 }

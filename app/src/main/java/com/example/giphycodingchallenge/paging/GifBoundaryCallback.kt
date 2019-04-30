@@ -15,7 +15,7 @@ class GifBoundaryCallback(
 
     private val _networkErrors = MutableLiveData<String>()
 
-    private var lastRequestedPage = 1
+    private var currentOffset = 0
 
     private var isRequestInProgress = false
 
@@ -34,20 +34,24 @@ class GifBoundaryCallback(
         if (isRequestInProgress) return
 
         isRequestInProgress = true
-        service.getTrending(lastRequestedPage,
-            NETWORK_PAGE_SIZE,{ listGifs ->
+        service.getTrending(
+            currentOffset,
+            NETWORK_PAGE_SIZE,
+            { listGifs, offset ->
+                currentOffset = offset
                 val data = arrayListOf<GifEntity>()
                 listGifs.forEach {
                     data.add(GifEntity(it.title, it.images.fixedHeight.url))
                 }
                 cache.insert(data) {
                     Log.d(LOG, "${data.size}")
-                    lastRequestedPage++
+                    currentOffset += NETWORK_PAGE_SIZE
                     isRequestInProgress = false
                 }
             }, {
                 _networkErrors.postValue(it)
                 isRequestInProgress = false
-            })
+            }
+        )
     }
 }
