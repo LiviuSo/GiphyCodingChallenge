@@ -7,8 +7,10 @@ import java.util.concurrent.Executor
 
 class GifsCache(private val gifsDao: GifDao, private val ioExecutor: Executor) {
 
-    fun getGifsPaging(): DataSource.Factory<Int, GifEntity> {
-        return gifsDao.getGifsPaging()
+    fun getGifsPaging(query: String): DataSource.Factory<Int, GifEntity> = if(query.isEmpty()) {
+        gifsDao.getAllGifs()
+    } else {
+        gifsDao.searchGifs("%$query%")
     }
 
     fun insert(gifs: List<GifEntity>, insertFinished: () -> Unit) {

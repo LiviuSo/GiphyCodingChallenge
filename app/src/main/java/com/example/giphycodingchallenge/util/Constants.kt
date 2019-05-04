@@ -8,4 +8,6 @@ object Constants {
     const val BASE_URL = "http://api.giphy.com"
     const val TIME_REFRESH_MS: Long = 300_000L
     const val NETWORK_PAGE_SIZE = 20
+    const val LAST_SEARCH_QUERY = "gifs_query_string"
+    const val DEFAULT_QUERY = ""
 }

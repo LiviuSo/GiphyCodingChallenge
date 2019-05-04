@@ -9,15 +9,23 @@ import com.example.giphycodingchallenge.util.Constants.API_KEY
 import com.example.giphycodingchallenge.util.Constants.NETWORK_PAGE_SIZE
 import io.reactivex.schedulers.Schedulers
 
-class GifWebServicePaging private constructor(){
+class GifWebServicePaging private constructor() {
     @SuppressLint("CheckResult")
-    fun getTrending(page: Int,
-                    itemsPerPage: Int,
-                    onSuccess: (List<Gif>, Int) -> Unit,
-                    onError: (String) -> Unit) {
-        Log.d(LOG, "getTrending($page, $itemsPerPage, ...)")
-
-        RetrofitClient.trendingApi.callTrending(apiKey = API_KEY, page = page, itemsPerPage = NETWORK_PAGE_SIZE)
+    fun getGifsFromService(
+        query: String,
+        offset: Int,
+        maxItems: Int,
+        onSuccess: (List<Gif>, Int) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val observable = if (query.isEmpty()) {
+            Log.d(LOG, "callTrending($API_KEY, $offset, $maxItems")
+            RetrofitClient.trendingApi.callTrending(apiKey = API_KEY, offset = offset, maxItems = maxItems)
+        } else {
+            Log.d(LOG, "callSearch($API_KEY, $query, $offset, $maxItems")
+            RetrofitClient.searchApi.callSearch(API_KEY, query, offset, NETWORK_PAGE_SIZE)
+        }
+        observable
             .subscribeOn(Schedulers.io())
             .subscribe({
                 it?.data?.let { it1 -> onSuccess(it1, it.pagination.offset) }
@@ -31,5 +39,4 @@ class GifWebServicePaging private constructor(){
             return GifWebServicePaging()
         }
     }
-
 }

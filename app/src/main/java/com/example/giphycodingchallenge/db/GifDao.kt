@@ -10,7 +10,7 @@ import io.reactivex.Observable
 @Dao
 interface GifDao {
 
-    @Query("SELECT * from gifs_table")
+    @Query("SELECT * FROM gifs_table")
     fun getGifs(): Observable<List<GifEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -19,9 +19,12 @@ interface GifDao {
     @Query("DELETE FROM gifs_table")
     fun deleteAll()
 
-    @Query("SELECT * from gifs_table")
-    fun getGifsPaging(): DataSource.Factory<Int, GifEntity>
+    @Query("SELECT * FROM gifs_table")
+    fun getAllGifs(): DataSource.Factory<Int, GifEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(gifs: List<GifEntity>)
+
+    @Query("SELECT * FROM gifs_table WHERE title LIKE :query")
+    fun searchGifs(query: String): DataSource.Factory<Int, GifEntity>
 }

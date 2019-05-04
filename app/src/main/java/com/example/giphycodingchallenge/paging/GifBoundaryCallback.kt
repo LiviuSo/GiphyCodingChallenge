@@ -9,6 +9,7 @@ import com.example.giphycodingchallenge.paging.PaginationActivity.Companion.LOG
 import com.example.giphycodingchallenge.util.Constants.NETWORK_PAGE_SIZE
 
 class GifBoundaryCallback(
+    private val query: String,
     private val service: GifWebServicePaging,
     private val cache: GifsCache
 ) : PagedList.BoundaryCallback<GifEntity>() {
@@ -23,25 +24,27 @@ class GifBoundaryCallback(
         get() = _networkErrors
 
     override fun onZeroItemsLoaded() {
-        requestAndSaveData()
+        requestAndSaveData(query)
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: GifEntity) {
-        requestAndSaveData()
+        requestAndSaveData(query)
     }
 
-    private fun requestAndSaveData() {
+    private fun requestAndSaveData(query: String) {
         if (isRequestInProgress) return
 
         isRequestInProgress = true
-        service.getTrending(
+        service.getGifsFromService(
+            query,
             currentOffset,
             NETWORK_PAGE_SIZE,
             { listGifs, offset ->
                 currentOffset = offset
-                val data = arrayListOf<GifEntity>()
+                val data = arrayListOf<GifEntity>() // todo use Rx
                 listGifs.forEach {
-                    data.add(GifEntity(it.title, it.images.fixedHeight.url))
+                    data.add(GifEntity(it.title, it.images.fixedHeight.url, it.title.hashCode()))
+                    Log.d(LOG, "${it.title.hashCode()}")
                 }
                 cache.insert(data) {
                     Log.d(LOG, "${data.size}")

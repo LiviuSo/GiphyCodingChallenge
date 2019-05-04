@@ -16,6 +16,6 @@ object GifWebService {
     fun searchGifs(searchKey: String): Observable<Response> {
         return RetrofitClient
             .searchApi
-            .callSearch(API_KEY, searchKey)
+            .callSearch(API_KEY, searchKey, 1)
     }
 }

@@ -11,6 +11,7 @@ import com.example.giphycodingchallenge.util.isTimeToRefresh
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 
 
 class GifRepository : SuperRepo() {
@@ -35,7 +36,8 @@ class GifRepository : SuperRepo() {
                     add(Single.fromCallable {
                         val gifEntities = arrayListOf<GifEntity>() // todo do the conversion with Rx
                         it.data.forEach {
-                            val entity = GifEntity(it.title, it.images.fixedHeight.url)
+                            val entity = GifEntity(it.title, it.images.fixedHeight.url, it.title.hashCode())
+                            Log.d(LOG, "${it.title.hashCode()}")
                             gifEntities.add(entity)
                             _gifDao.insert(entity)
                         }

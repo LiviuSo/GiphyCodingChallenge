@@ -1,18 +1,22 @@
 package com.example.giphycodingchallenge.paging
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.db.GifEntity
 import com.example.giphycodingchallenge.paging.Injection.provideViewModelFactory
+import com.example.giphycodingchallenge.util.Constants.DEFAULT_QUERY
+import com.example.giphycodingchallenge.util.Constants.LAST_SEARCH_QUERY
 import kotlinx.android.synthetic.main.activity_pagination.*
 
 class PaginationActivity : AppCompatActivity() {
@@ -24,10 +28,52 @@ class PaginationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pagination)
 
+        Log.d(LOG, DebugDB.getAddressLog())
+
+
         viewModel = ViewModelProviders.of(this, provideViewModelFactory(this)).get(GifPagingViewModel::class.java)
 
         paginationRecView.layoutManager = GridLayoutManager(this, 2)
         initAdapter()
+
+        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
+        viewModel.getGifs(query)
+
+        initSearch(query)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(LAST_SEARCH_QUERY, viewModel.lastQueryValue())
+    }
+
+    private fun initSearch(query: String) {
+        if(searchGifs.visibility == View.VISIBLE) {
+            searchGifs.setText(query)
+        }
+
+        searchGifs.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateGifsListFromInput()
+            }
+        })
+    }
+
+    private fun updateGifsListFromInput() {
+        searchGifs.text.trim().let {
+            if(it.isNotEmpty()) {
+                paginationRecView.scrollToPosition(0)
+                viewModel.getGifs(it.toString())
+                adapter.submitList(null) // todo fix
+                Log.d(LOG, "last query: $it")
+            }
+        }
     }
 
     private fun initAdapter() {

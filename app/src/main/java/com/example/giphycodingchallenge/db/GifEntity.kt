@@ -9,5 +9,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class GifEntity(val title: String,
                      val url: String,
-                     @PrimaryKey(autoGenerate = true) val id: Int = 0) : Parcelable
+                     @PrimaryKey(autoGenerate = false) val id: Int = 0) : Parcelable
 

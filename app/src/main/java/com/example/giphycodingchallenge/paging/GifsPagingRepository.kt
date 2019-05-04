@@ -6,13 +6,12 @@ import com.example.giphycodingchallenge.data.GifRepository
 
 class GifsPagingRepository(private val cache: GifsCache, private val service: GifWebServicePaging) {
 
-    // pagination
-    fun getGifsResponse() : GifsResponse {
-        Log.d(GifRepository.LOG, "getGifsResponse() ")
+    fun getGifs(query: String): GifsResponse {
+        Log.d(GifRepository.LOG, "getTrendingGifs() ")
 
-        val dataSourceFactory = cache.getGifsPaging()
+        val dataSourceFactory = cache.getGifsPaging(query)
 
-        val boundaryCallback = GifBoundaryCallback(service, cache)
+        val boundaryCallback = GifBoundaryCallback(query, service, cache)
         val networkErrors = boundaryCallback.networkErrors
 
         val data = LivePagedListBuilder(dataSourceFactory, DATA_PAGE_SIZE)
@@ -25,5 +24,4 @@ class GifsPagingRepository(private val cache: GifsCache, private val service: Gi
     companion object {
         private const val DATA_PAGE_SIZE = 50
     }
-
 }
