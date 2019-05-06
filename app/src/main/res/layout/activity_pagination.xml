@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:context=".paging.PaginationActivity"
+            tools:context=".ui.PaginationActivity"
             android:id="@+id/paginationRecView"/>
 
     <TextView android:id="@+id/emptyList"

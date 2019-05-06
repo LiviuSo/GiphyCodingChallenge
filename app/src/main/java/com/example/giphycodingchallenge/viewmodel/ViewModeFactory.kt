@@ -1,7 +1,8 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.giphycodingchallenge.data.GifsPagingRepository
 
 class ViewModeFactory(private val repo: GifsPagingRepository) : ViewModelProvider.Factory {
 

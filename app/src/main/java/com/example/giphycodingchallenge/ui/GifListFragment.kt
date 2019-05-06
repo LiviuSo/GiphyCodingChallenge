@@ -10,14 +10,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.giphycodingchallenge.MyApplication
+import com.example.giphycodingchallenge.MyApplication.Companion.myApplication
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.adapter.GifAdapter
 import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.db.GifEntity
+import com.example.giphycodingchallenge.util.Constants.DEFAULT_QUERY
 import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_LANDSCAPE
 import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_TABLET
+import com.example.giphycodingchallenge.util.Constants.EXTRA_SEARCH_QUERY
+import com.example.giphycodingchallenge.util.Injection
 import com.example.giphycodingchallenge.util.PreferenceHelper
 import com.example.giphycodingchallenge.util.isTimeToRefresh
+import com.example.giphycodingchallenge.viewmodel.GifPagingViewModel
 import com.example.giphycodingchallenge.viewmodel.GifViewModel
 import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 
@@ -25,9 +30,10 @@ import kotlinx.android.synthetic.main.fragment_list_giphy.view.*
 class GifListFragment : Fragment() {
 
     private lateinit var data: List<GifEntity>
-    private lateinit var viewModel: GifViewModel
+    private lateinit var viewModel: GifPagingViewModel
     private var isLandscape: Boolean = false
     private var isTablet: Boolean = false
+    private lateinit var query: String
 
     private val onClickPhone: (GifEntity) -> Unit = { item ->
         (activity as GifListActivity).launchDetailActivity(item)
@@ -39,11 +45,12 @@ class GifListFragment : Fragment() {
 
     companion object {
         private const val LOG = "giphy_list_fragment"
-        fun instance(landscape: Boolean, tablet: Boolean) = GifListFragment().apply {
+        fun instance(landscape: Boolean, tablet: Boolean, query: String) = GifListFragment().apply {
             retainInstance = true
             arguments = Bundle().apply {
                 putBoolean(EXTRA_IS_LANDSCAPE, landscape)
                 putBoolean(EXTRA_IS_TABLET, tablet)
+                putString(EXTRA_SEARCH_QUERY, query)
             }
         }
     }
@@ -54,9 +61,10 @@ class GifListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         isLandscape = arguments?.getBoolean(EXTRA_IS_LANDSCAPE) ?: false
         isTablet = arguments?.getBoolean(EXTRA_IS_TABLET) ?: false
+        query = arguments?.getString(EXTRA_SEARCH_QUERY) ?: DEFAULT_QUERY
 
-        viewModel = ViewModelProviders.of(this).get(GifViewModel::class.java)
-        viewModel.getGifs()
+        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(myApplication)).get(GifPagingViewModel::class.java)
+        viewModel.getGifs(query)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -87,7 +95,7 @@ class GifListFragment : Fragment() {
         isLandscape = landscape
     }
 
-    fun selectFirst() {
+    private fun selectFirst() {
         onClickTablet(data.first())
     }
 }

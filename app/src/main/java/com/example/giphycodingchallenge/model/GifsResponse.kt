@@ -1,4 +1,4 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.model
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

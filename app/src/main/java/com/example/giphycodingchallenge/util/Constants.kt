@@ -10,4 +10,6 @@ object Constants {
     const val NETWORK_PAGE_SIZE = 20
     const val LAST_SEARCH_QUERY = "gifs_query_string"
     const val DEFAULT_QUERY = ""
+    const val EXTRA_SEARCH_QUERY = "query_search"
+
 }

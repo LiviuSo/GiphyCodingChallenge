@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.db.GifEntity
+import com.example.giphycodingchallenge.util.Constants.DEFAULT_QUERY
 import com.example.giphycodingchallenge.util.Constants.EXTRA_ITEM
 import com.example.giphycodingchallenge.util.isOrientedLanscape
 import com.example.giphycodingchallenge.util.isTablet
@@ -93,16 +94,14 @@ class GifListActivity : AppCompatActivity() {
 
     private fun setFragments(landscape: Boolean) {
         // set both list and detail frags
-        val fragList = GifListFragment.instance(landscape, isTablet())
-//        val fragDetails = GifDetailFragment.instance(null)
+        val fragList = GifListFragment.instance(landscape, isTablet(), DEFAULT_QUERY)
         supportFragmentManager.beginTransaction()
             .replace(R.id.listFragmentHolder, fragList, GIF_LIST_FRAG_TAG)
-//            .replace(R.id.detailsFragmentHolder, fragDetails, GIF_DETAILS_FRAG_TAG)
             .commit()
     }
 
     private fun setListFragment(landscape: Boolean) {
-        GifListFragment.instance(landscape, isTablet()).run {
+        GifListFragment.instance(landscape, isTablet(), DEFAULT_QUERY).run {
             supportFragmentManager.beginTransaction()
                 .add(R.id.listFragmentHolder, this, GIF_LIST_FRAG_TAG)
                 .commit()
@@ -131,56 +130,3 @@ class GifListActivity : AppCompatActivity() {
         const val GIF_DETAILS_FRAG_TAG = "GifDetailsFragment"
     }
 }
-
-/*
-* approach:
-*
-* - UI: RecyclerView, custom components (views)
-* - architecture: same architecture as Nike App (Retail)
-*       - RetrofitApi -> Retrofit observable
-*       - webservice -> Observable
-*       - repository -> live data
-*       - modelview -> consumer live data
-*
-* - network: Retrofit, picasso (?)
-* - Rx & LiveData
-*
-* - tablet, phone
-* - portrait & landscape
-* - test: unit, api, UI
-*
-* list: activity + fragment
-* details: activity + fragment
-*
-*
-* UI
-*   layout
-*       ConstraintLayout
-*       LinearLayout
-*   findById
-*       androidx
-*
-* arch
-*   MVVM
-*   Repository
-*   Pagination
-*
-* DB
-*   Room
-*   SQLite
-*
-* network
-*   Retrofit
-*       json
-*           Moshi
-*           Gson
-*       image
-*           Picasso
-*           Glade
-*   OkHttp
-*
-*
-*
-*
-*
-* */

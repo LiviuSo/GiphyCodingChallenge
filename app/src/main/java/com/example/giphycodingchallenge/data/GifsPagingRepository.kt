@@ -1,8 +1,9 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.data
 
 import android.util.Log
 import androidx.paging.LivePagedListBuilder
-import com.example.giphycodingchallenge.data.GifRepository
+import com.example.giphycodingchallenge.network.service.GifWebServicePaging
+import com.example.giphycodingchallenge.model.GifsResponse
 
 class GifsPagingRepository(private val cache: GifsCache, private val service: GifWebServicePaging) {
 
@@ -14,7 +15,9 @@ class GifsPagingRepository(private val cache: GifsCache, private val service: Gi
         val boundaryCallback = GifBoundaryCallback(query, service, cache)
         val networkErrors = boundaryCallback.networkErrors
 
-        val data = LivePagedListBuilder(dataSourceFactory, DATA_PAGE_SIZE)
+        val data = LivePagedListBuilder(dataSourceFactory,
+            DATA_PAGE_SIZE
+        )
             .setBoundaryCallback(boundaryCallback)
             .build()
 

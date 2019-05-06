@@ -1,5 +1,6 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,22 +15,31 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.db.GifEntity
-import com.example.giphycodingchallenge.paging.Injection.provideViewModelFactory
+import com.example.giphycodingchallenge.viewmodel.GifPagingViewModel
+import com.example.giphycodingchallenge.adapter.GifsPagedAdapter
+import com.example.giphycodingchallenge.util.Injection.provideViewModelFactory
+import com.example.giphycodingchallenge.util.Constants
 import com.example.giphycodingchallenge.util.Constants.DEFAULT_QUERY
 import com.example.giphycodingchallenge.util.Constants.LAST_SEARCH_QUERY
+import com.example.giphycodingchallenge.util.isTablet
 import kotlinx.android.synthetic.main.activity_pagination.*
 
 class PaginationActivity : AppCompatActivity() {
 
     private lateinit var viewModel: GifPagingViewModel
-    private val adapter = GifsPagedAdapter()
+    private lateinit var adapter: GifsPagedAdapter
+    private val onClickPhone: (GifEntity) -> Unit = {
+        launchDetailActivity(it)
+    }
+    private val onClickTablet: (GifEntity) -> Unit = {
+        launchDetailActivity(it)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pagination)
 
         Log.d(LOG, DebugDB.getAddressLog())
-
 
         viewModel = ViewModelProviders.of(this, provideViewModelFactory(this)).get(GifPagingViewModel::class.java)
 
@@ -78,6 +88,11 @@ class PaginationActivity : AppCompatActivity() {
 
     private fun initAdapter() {
         Log.d(LOG, "initAdapter()")
+        adapter = GifsPagedAdapter(
+            isTablet(),
+            onClickPhone = onClickPhone,
+            onClickTablet = onClickTablet
+        )
         paginationRecView.adapter = adapter
         viewModel.gifs.observe(this, Observer<PagedList<GifEntity>> {
             Log.d(LOG, "observing gifs")
@@ -100,6 +115,14 @@ class PaginationActivity : AppCompatActivity() {
             emptyList.visibility = View.GONE
             paginationRecView.visibility = View.VISIBLE
         }
+    }
+
+    fun launchDetailActivity(item: GifEntity) {
+        Log.d(GifListActivity.LOG, "GifListActivity: launchDetailActivity($item)")
+        val intent = Intent(this, GifDetailActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra(Constants.EXTRA_ITEM, item)
+        startActivity(intent)
     }
 
     companion object {

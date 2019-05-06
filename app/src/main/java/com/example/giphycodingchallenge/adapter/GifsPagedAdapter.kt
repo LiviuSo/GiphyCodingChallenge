@@ -1,4 +1,4 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.adapter
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -6,14 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giphycodingchallenge.db.GifEntity
 
-class GifsPagedAdapter :  PagedListAdapter<GifEntity, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
+class GifsPagedAdapter(
+    private val tablet: Boolean,
+    private val onClickPhone: (GifEntity) -> Unit,
+    private val onClickTablet: (GifEntity) -> Unit
+) : PagedListAdapter<GifEntity, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return GifViewHolder.create(parent)
+        return GifViewHolder.create(
+            parent,
+            tablet,
+            onClickPhone,
+            onClickTablet
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
-        if(item != null) {
+        if (item != null) {
             (holder as GifViewHolder).bind(item)
         }
     }

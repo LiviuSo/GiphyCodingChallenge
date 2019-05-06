@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.ui.GifListActivity
+import com.example.giphycodingchallenge.ui.PaginationActivity
 import kotlinx.android.synthetic.main.activity_test.*
 
 class TestActivity : AppCompatActivity() {

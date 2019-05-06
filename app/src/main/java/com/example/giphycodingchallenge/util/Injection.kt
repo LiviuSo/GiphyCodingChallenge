@@ -1,8 +1,12 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.util
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import com.example.giphycodingchallenge.data.GifsCache
+import com.example.giphycodingchallenge.data.GifsPagingRepository
 import com.example.giphycodingchallenge.db.GifDb
+import com.example.giphycodingchallenge.network.service.GifWebServicePaging
+import com.example.giphycodingchallenge.viewmodel.ViewModeFactory
 import java.util.concurrent.Executors
 
 object Injection {
@@ -19,7 +23,10 @@ object Injection {
      * Creates an instance of [GifsPagingRepository]
      */
     fun providePagingRepository(context: Context) : GifsPagingRepository {
-        return GifsPagingRepository(provideCache(context), GifWebServicePaging.create())
+        return GifsPagingRepository(
+            provideCache(context),
+            GifWebServicePaging.create()
+        )
     }
 
     /**

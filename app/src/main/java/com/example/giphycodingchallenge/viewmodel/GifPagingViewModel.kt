@@ -1,4 +1,4 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import com.example.giphycodingchallenge.db.GifEntity
+import com.example.giphycodingchallenge.data.GifsPagingRepository
 
 class GifPagingViewModel(val repository: GifsPagingRepository) : ViewModel() {
 

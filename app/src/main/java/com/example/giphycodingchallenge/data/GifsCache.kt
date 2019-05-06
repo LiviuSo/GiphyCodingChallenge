@@ -1,4 +1,4 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.data
 
 import androidx.paging.DataSource
 import com.example.giphycodingchallenge.db.GifDao

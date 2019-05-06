@@ -5,13 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.giphycodingchallenge.db.GifDb
 import com.example.giphycodingchallenge.db.GifEntity
 import com.example.giphycodingchallenge.network.service.GifWebService
-import com.example.giphycodingchallenge.paging.GifsResponse
 import com.example.giphycodingchallenge.util.PreferenceHelper
 import com.example.giphycodingchallenge.util.isTimeToRefresh
 import io.reactivex.Single
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 
 class GifRepository : SuperRepo() {

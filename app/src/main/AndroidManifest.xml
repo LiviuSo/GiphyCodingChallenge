@@ -16,7 +16,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".paging.PaginationActivity">
+        <activity android:name=".ui.PaginationActivity">
         </activity>
         <activity android:name=".paging.TestActivity">
             <intent-filter>

@@ -1,10 +1,10 @@
-package com.example.giphycodingchallenge.paging
+package com.example.giphycodingchallenge.network.service
 
 import android.annotation.SuppressLint
 import android.util.Log
 import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.network.RetrofitClient
-import com.example.giphycodingchallenge.paging.PaginationActivity.Companion.LOG
+import com.example.giphycodingchallenge.ui.PaginationActivity.Companion.LOG
 import com.example.giphycodingchallenge.util.Constants.API_KEY
 import com.example.giphycodingchallenge.util.Constants.NETWORK_PAGE_SIZE
 import io.reactivex.schedulers.Schedulers
