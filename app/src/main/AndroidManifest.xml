@@ -16,20 +16,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".ui.PaginationActivity">
-        </activity>
-        <activity android:name=".paging.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+
         <activity android:name=".ui.GifDetailActivity">
         </activity>
+
         <activity
                 android:name=".ui.GifListActivity"
                 android:configChanges="orientation|screenSize"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

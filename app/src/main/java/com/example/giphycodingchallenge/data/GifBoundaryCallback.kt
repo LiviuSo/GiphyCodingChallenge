@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.example.giphycodingchallenge.db.GifEntity
 import com.example.giphycodingchallenge.network.service.GifWebServicePaging
-import com.example.giphycodingchallenge.ui.PaginationActivity.Companion.LOG
+import com.example.giphycodingchallenge.ui.GifListActivity.Companion.LOG
 import com.example.giphycodingchallenge.util.Constants.NETWORK_PAGE_SIZE
 
 class GifBoundaryCallback(
