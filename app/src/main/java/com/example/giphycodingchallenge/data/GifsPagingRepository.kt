@@ -4,11 +4,12 @@ import android.util.Log
 import androidx.paging.LivePagedListBuilder
 import com.example.giphycodingchallenge.network.service.GifWebServicePaging
 import com.example.giphycodingchallenge.model.GifsResponse
+import com.example.giphycodingchallenge.ui.GifListActivity.Companion.LOG
 
 class GifsPagingRepository(private val cache: GifsCache, private val service: GifWebServicePaging) {
 
     fun getGifs(query: String): GifsResponse {
-        Log.d(GifRepository.LOG, "getTrendingGifs() ")
+        Log.d(LOG, "getTrendingGifs() ")
 
         val dataSourceFactory = cache.getGifsPaging(query)
 

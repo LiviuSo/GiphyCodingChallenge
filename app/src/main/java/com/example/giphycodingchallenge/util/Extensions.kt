@@ -24,10 +24,3 @@ fun AppCompatActivity.rebindFragment(tag: String): Fragment? {
     frag?.let { it1 -> supportFragmentManager.beginTransaction().detach(it1).attach(frag).commit() }
     return frag
 }
-
-fun isTimeToRefresh(): Boolean {
-    val pm = PreferenceHelper()
-    val timestamp = pm.getLatestTimeStamp()
-    val currentTime = System.currentTimeMillis()
-    return currentTime - timestamp >= Constants.TIME_REFRESH_MS
-}

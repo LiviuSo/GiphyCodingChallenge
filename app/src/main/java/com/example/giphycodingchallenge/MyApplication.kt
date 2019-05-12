@@ -16,4 +16,7 @@ class MyApplication: Application() {
         Log.d(LOG_TAG, "MyApplication::onCreate()")
         myApplication = this
     }
+
+
+
 }

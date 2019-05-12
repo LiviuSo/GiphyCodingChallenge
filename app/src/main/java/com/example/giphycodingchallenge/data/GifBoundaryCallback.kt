@@ -40,15 +40,10 @@ class GifBoundaryCallback(
             query,
             currentOffset,
             NETWORK_PAGE_SIZE,
-            { listGifs, offset ->
+            { listGifEntity, offset ->
                 currentOffset = offset
-                val data = arrayListOf<GifEntity>() // todo use Rx
-                listGifs.forEach {
-                    data.add(GifEntity(it.title, it.images.fixedHeight.url, it.title.hashCode()))
-                    Log.d(LOG, "${it.title.hashCode()}")
-                }
-                cache.insert(data) {
-                    Log.d(LOG, "${data.size}")
+                cache.insert(listGifEntity) {
+                    Log.d(LOG, "${listGifEntity.size}")
                     currentOffset += NETWORK_PAGE_SIZE
                     isRequestInProgress = false
                 }
