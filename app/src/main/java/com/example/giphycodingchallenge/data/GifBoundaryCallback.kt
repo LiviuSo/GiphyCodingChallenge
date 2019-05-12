@@ -33,6 +33,8 @@ class GifBoundaryCallback(
     }
 
     private fun requestAndSaveData(query: String) {
+        Log.d(LOG, "requestAndSaveData($query)")
+
         if (isRequestInProgress) return
 
         isRequestInProgress = true

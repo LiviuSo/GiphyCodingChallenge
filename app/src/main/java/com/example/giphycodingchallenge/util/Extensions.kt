@@ -2,6 +2,7 @@ package com.example.giphycodingchallenge.util
 
 import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
 import android.view.Surface
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -23,4 +24,10 @@ fun AppCompatActivity.rebindFragment(tag: String): Fragment? {
     val frag = this.supportFragmentManager.findFragmentByTag(tag)
     frag?.let { it1 -> supportFragmentManager.beginTransaction().detach(it1).attach(frag).commit() }
     return frag
+}
+
+fun Context.isInternetConnectionActive(): Boolean {
+    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork = connectivityManager.activeNetworkInfo
+    return activeNetwork != null && activeNetwork.isConnectedOrConnecting // todo refactor
 }

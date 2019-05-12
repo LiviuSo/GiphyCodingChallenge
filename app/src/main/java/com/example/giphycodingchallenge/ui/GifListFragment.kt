@@ -23,7 +23,7 @@ import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_TABLET
 import com.example.giphycodingchallenge.util.Constants.EXTRA_SEARCH_QUERY
 import com.example.giphycodingchallenge.util.Injection
 import com.example.giphycodingchallenge.viewmodel.GifPagingViewModel
-import kotlinx.android.synthetic.main.activity_pagination.view.*
+import kotlinx.android.synthetic.main.fragment_list_gif.view.*
 
 
 class GifListFragment : Fragment() {
@@ -70,7 +70,7 @@ class GifListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(LOG, "GifListFragment ($this): onCreateView")
 
-        val view = inflater.inflate(R.layout.activity_pagination, container, false)
+        val view = inflater.inflate(R.layout.fragment_list_gif, container, false)
         view.paginationRecView.layoutManager = GridLayoutManager(
             this.activity, if (isLandscape) {
                 3
@@ -80,6 +80,12 @@ class GifListFragment : Fragment() {
         )
         initAdapter(view)
         initSearch(view, query)
+
+        view.swipeToRefreshLayout.setOnRefreshListener {
+            Toast.makeText(this@GifListFragment.activity, "Refreshing", Toast.LENGTH_SHORT).show()
+            viewModel.getGifs(viewModel.lastQueryValue())
+            view.swipeToRefreshLayout.isRefreshing = false
+        }
 
         return view
     }
@@ -96,14 +102,17 @@ class GifListFragment : Fragment() {
             onClickTablet = onClickTablet
         )
         view.paginationRecView.adapter = adapter
+        fetchData(view)
+    }
+
+    private fun fetchData(view: View) {
         viewModel.gifs.observe(this, Observer<PagedList<GifEntity>> {
-            Log.d(LOG, "observing gifs")
+            Log.d(LOG, "observing gifs: got ${it.size} gifs")
             adapter.submitList(it)
             showEmptyList(view, it?.size == 0)
         })
         viewModel.networkErrors.observe(this, Observer<String> {
-            Log.d(LOG, "observing networkErrors")
-            Toast.makeText(this@GifListFragment.context, it, Toast.LENGTH_SHORT).show()
+            Log.d(LOG, " networkErrors: $it") // todo smth
         })
     }
 
@@ -129,6 +138,7 @@ class GifListFragment : Fragment() {
         view.searchGifs.text.trim().let {
             if(it.isNotEmpty()) {
                 view.paginationRecView.scrollToPosition(0)
+                showEmptyList(view, false)
                 viewModel.getGifs(it.toString())
                 adapter.submitList(null) // todo fix
                 Log.d(LOG, "last query: $it")
@@ -137,12 +147,11 @@ class GifListFragment : Fragment() {
     }
 
     private fun showEmptyList(view: View, show: Boolean) {
+        Log.d(LOG, "showEmptyList($show)")
         if(show) {
-            Log.d(LOG, "showEmptyList(true)")
             view.emptyList.visibility = View.VISIBLE
             view.paginationRecView.visibility = View.GONE
         } else {
-            Log.d(LOG, "showEmptyList(false)")
             view.emptyList.visibility = View.GONE
             view.paginationRecView.visibility = View.VISIBLE
         }
