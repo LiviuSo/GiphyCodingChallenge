@@ -50,8 +50,7 @@ class GifListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d(LOG, "GifListActivity $this: onCreate()")
-        Log.d(LOG, DebugDB.getAddressLog())
+        Log.d(LOG, DebugDB.getAddressLog()) // for DB debug
 
         isLandscape = isOrientedLanscape()
         if (isTablet()) {
@@ -70,12 +69,15 @@ class GifListActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarCustom)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        search.setOnClickListener {
+            (this.supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment).showSearchBar(true)
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         Log.d(LOG, "GifListActivity ($this): onConfigurationChanged")
-
         isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
         if (isTablet()) {
             if (isLandscape) {
@@ -90,7 +92,6 @@ class GifListActivity : AppCompatActivity() {
             frag.onConfigChanged(isLandscape)
         }
     }
-
 
     private fun setFragments(landscape: Boolean) {
         // set both list and detail frags

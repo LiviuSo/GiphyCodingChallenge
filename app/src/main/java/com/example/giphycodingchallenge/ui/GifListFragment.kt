@@ -23,11 +23,13 @@ import com.example.giphycodingchallenge.util.Constants.EXTRA_IS_TABLET
 import com.example.giphycodingchallenge.util.Constants.EXTRA_SEARCH_QUERY
 import com.example.giphycodingchallenge.util.Injection
 import com.example.giphycodingchallenge.viewmodel.GifPagingViewModel
+import kotlinx.android.synthetic.main.fragment_list_gif.*
 import kotlinx.android.synthetic.main.fragment_list_gif.view.*
 
 
 class GifListFragment : Fragment() {
 
+    private var searchOn: Boolean = false
     private lateinit var viewModel: GifPagingViewModel
     private var isLandscape: Boolean = false
     private var isTablet: Boolean = false
@@ -63,7 +65,8 @@ class GifListFragment : Fragment() {
         isTablet = arguments?.getBoolean(EXTRA_IS_TABLET) ?: false
         query = arguments?.getString(EXTRA_SEARCH_QUERY) ?: DEFAULT_QUERY
 
-        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(myApplication)).get(GifPagingViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, Injection.provideViewModelFactory(myApplication))
+            .get(GifPagingViewModel::class.java)
         viewModel.getGifs(query)
     }
 
@@ -90,8 +93,21 @@ class GifListFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        showSearchBar(searchOn)
+    }
+
     fun onConfigChanged(landscape: Boolean) {
         isLandscape = landscape
+    }
+
+    fun showSearchBar(show: Boolean) {
+        searchOn = show
+        searchBar.visibility = if (show) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun initAdapter(view: View) {
@@ -117,7 +133,7 @@ class GifListFragment : Fragment() {
     }
 
     private fun initSearch(view: View, query: String) {
-        if(view.searchGifs.visibility == View.VISIBLE) {
+        if (view.searchGifs.visibility == View.VISIBLE) {
             view.searchGifs.setText(query)
         }
 
@@ -129,26 +145,31 @@ class GifListFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(LOG, "onTextChanged")
                 updateGifsListFromInput(view)
             }
         })
+
+        view.closeSearch.setOnClickListener {
+            searchOn = false
+            view.searchGifs.setText("")
+            showSearchBar(searchOn)
+        }
     }
 
     private fun updateGifsListFromInput(view: View) {
         view.searchGifs.text.trim().let {
-            if(it.isNotEmpty()) {
-                view.paginationRecView.scrollToPosition(0)
-                showEmptyList(view, false)
-                viewModel.getGifs(it.toString())
-                adapter.submitList(null) // todo fix
-                Log.d(LOG, "last query: $it")
-            }
+            view.paginationRecView.scrollToPosition(0)
+            showEmptyList(view, false)
+            viewModel.getGifs(it.toString())
+            adapter.submitList(null)
+            Log.d(LOG, "last query: $it")
         }
     }
 
     private fun showEmptyList(view: View, show: Boolean) {
         Log.d(LOG, "showEmptyList($show)")
-        if(show) {
+        if (show) {
             view.emptyList.visibility = View.VISIBLE
             view.paginationRecView.visibility = View.GONE
         } else {

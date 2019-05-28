@@ -12,14 +12,29 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <EditText
-                android:id="@+id/searchGifs"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/search_hint"
-                android:imeOptions="actionSearch"
-                android:inputType="textNoSuggestions"
-                tools:text=""/>
+                android:visibility="gone"
+                android:id="@+id/searchBar"
+                android:orientation="horizontal">
+            <EditText
+                    android:id="@+id/searchGifs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textNoSuggestions"
+                    tools:text=""
+                    android:layout_weight="1"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_close_black_24dp"
+                    android:id="@+id/closeSearch"
+                    android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
