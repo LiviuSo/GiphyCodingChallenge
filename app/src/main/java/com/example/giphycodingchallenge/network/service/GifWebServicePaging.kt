@@ -3,7 +3,6 @@ package com.example.giphycodingchallenge.network.service
 import android.annotation.SuppressLint
 import android.util.Log
 import com.example.giphycodingchallenge.db.GifEntity
-import com.example.giphycodingchallenge.model.Gif
 import com.example.giphycodingchallenge.model.ResponseEntity
 import com.example.giphycodingchallenge.network.RetrofitClient
 import com.example.giphycodingchallenge.ui.GifListActivity.Companion.LOG
@@ -32,7 +31,7 @@ class GifWebServicePaging private constructor() {
             .map { response ->
                 ResponseEntity(arrayListOf<GifEntity>().apply {
                     response.data.forEach { gif ->
-                        this.add(GifEntity(gif.title, gif.images.fixedHeight.url, gif.title.hashCode()))
+                        this.add(GifEntity(gif.title, gif.images.fixedWidth.url, gif.images.fixedWidth.width, gif.images.fixedWidth.height, gif.title.hashCode()))
                     }
                 }, response.pagination.offset)
             }

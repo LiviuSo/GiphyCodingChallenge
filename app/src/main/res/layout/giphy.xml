@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:clickable="true"
-              android:focusable="true">
-
-    <ImageView android:layout_width="@dimen/width_giphy_prev"
-               android:layout_height="@dimen/height_giphy_prev"
-               android:id="@+id/image"
-               android:contentDescription="@string/giphy_image"/>
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="@string/giphy_image"
-              android:textColor="@color/colorPrimary"
-              android:id="@+id/name"/>
-
-</LinearLayout>
+<ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:id="@+id/image"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:contentDescription="@string/gif"/>

@@ -1,29 +1,31 @@
 package com.example.giphycodingchallenge.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.db.GifEntity
+import com.example.giphycodingchallenge.db.scaleHeightPx
 import com.example.giphycodingchallenge.ui.GifDetailActivity
 
 class GifViewHolder(
     view: View,
+    private val allowedWidthPx: Int,
     private val isTablet: Boolean,
     private val onClickPhone: (GifEntity) -> Unit,
     private val onClickTablet: (GifEntity) -> Unit
 ) : RecyclerView.ViewHolder(view) {
 
-    private val name = view.findViewById<TextView>(R.id.name)
     private val image = view.findViewById<ImageView>(R.id.image)
 
     init {
-        view.setOnClickListener {
+        Log.d("GifViewHolder", "$allowedWidthPx")
+        image.setOnClickListener {
             val intent = Intent(view.context, GifDetailActivity::class.java)
             view.context.startActivity(intent)
         }
@@ -31,8 +33,6 @@ class GifViewHolder(
 
     fun bind(item: GifEntity?) {
         if (item == null) {
-            val resources = itemView.resources
-            name.text = resources.getString(R.string.loading)
             image.visibility = View.GONE
         } else {
             showGifData(item)
@@ -46,9 +46,9 @@ class GifViewHolder(
         Glide.with(image.context)
             .load(item.url)
             .placeholder(R.drawable.placeholder_image)
-            .error(R.drawable.error)
+            .error(R.drawable.placeholder_image)
+            .override(allowedWidthPx, item.scaleHeightPx(allowedWidthPx))
             .into(image)
-        name.text = item.title
         image.setOnClickListener {
             if (isTablet) {
                 onClickTablet.invoke(item)
@@ -60,13 +60,14 @@ class GifViewHolder(
 
     companion object {
         fun create(parent: ViewGroup,
+                   quotaParentWidth: Int,
                    isTablet: Boolean,
                    onClickPhone: (GifEntity) -> Unit,
                    onClickTablet: (GifEntity) -> Unit): GifViewHolder {
             val view = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.giphy, parent, false)
-            return GifViewHolder(view, isTablet, onClickPhone, onClickTablet)
+            return GifViewHolder(view,parent.width / quotaParentWidth, isTablet, onClickPhone, onClickTablet)
         }
     }
 }

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.giphycodingchallenge.MyApplication.Companion.myApplication
 import com.example.giphycodingchallenge.R
 import com.example.giphycodingchallenge.adapter.GifsPagedAdapter
@@ -29,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_list_gif.view.*
 
 class GifListFragment : Fragment() {
 
+    private var numberOfCols: Int = 0
     private var searchOn: Boolean = false
     private lateinit var viewModel: GifPagingViewModel
     private var isLandscape: Boolean = false
@@ -74,13 +75,13 @@ class GifListFragment : Fragment() {
         Log.d(LOG, "GifListFragment ($this): onCreateView")
 
         val view = inflater.inflate(R.layout.fragment_list_gif, container, false)
-        view.paginationRecView.layoutManager = GridLayoutManager(
-            this.activity, if (isLandscape) {
+        numberOfCols = if (isLandscape) {
                 3
             } else {
                 2
             }
-        )
+        view.paginationRecView.layoutManager = StaggeredGridLayoutManager(numberOfCols, StaggeredGridLayoutManager.VERTICAL)
+
         initAdapter(view)
         initSearch(view, query)
 
@@ -113,6 +114,7 @@ class GifListFragment : Fragment() {
     private fun initAdapter(view: View) {
         Log.d(LOG, "initAdapter()")
         adapter = GifsPagedAdapter(
+            numberOfCols,
             this.isTablet,
             onClickPhone = onClickPhone,
             onClickTablet = onClickTablet

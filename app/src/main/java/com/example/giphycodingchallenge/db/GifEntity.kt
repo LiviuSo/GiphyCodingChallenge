@@ -9,5 +9,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class GifEntity(val title: String,
                      val url: String,
+                     val width: Int,
+                     val height: Int,
                      @PrimaryKey(autoGenerate = false) val id: Int = 0) : Parcelable
 
+fun GifEntity.scaleHeightPx(newWith: Int): Int {
+    val ratio = newWith.toFloat() / this.width
+    return (this.height * ratio).toInt()
+}

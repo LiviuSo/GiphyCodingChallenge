@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="width_giphy_prev">210dp</dimen>
+    <dimen name="width_giphy_prev">180dp</dimen>
     <dimen name="height_giphy_prev">160dp</dimen>
     <dimen name="repo_name_size">24sp</dimen>
 </resources>
