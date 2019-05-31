@@ -53,6 +53,8 @@ class GifListActivity : AppCompatActivity() {
         Log.d(LOG, DebugDB.getAddressLog()) // for DB debug
 
         isLandscape = isOrientedLanscape()
+        Log.d(LOG, "GifListActivity: isLandscape = $isLandscape")
+
         if (isTablet()) {
             Log.d(LOG, "GifListActivity: tablet detected")
             if (isLandscape) {
@@ -79,13 +81,15 @@ class GifListActivity : AppCompatActivity() {
         super.onConfigurationChanged(newConfig)
         Log.d(LOG, "GifListActivity ($this): onConfigurationChanged")
         isLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+        Log.d(LOG, "GifListActivity ($this): onConfigurationChanged: isLandscape = $isLandscape")
+
         if (isTablet()) {
             if (isLandscape) {
                 setContentView(R.layout.activity_list_gif_landscape)
             } else {
                 setContentView(R.layout.activity_list_gif_portrait)
             }
-            rebindFragment(GIF_LIST_FRAG_TAG)
+            (rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment).onConfigChanged(isLandscape)
             rebindFragment(GIF_DETAILS_FRAG_TAG)
         } else {
             val frag = rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment

@@ -75,11 +75,13 @@ class GifListFragment : Fragment() {
         Log.d(LOG, "GifListFragment ($this): onCreateView")
 
         val view = inflater.inflate(R.layout.fragment_list_gif, container, false)
-        numberOfCols = if (isLandscape) {
-                3
-            } else {
-                2
-            }
+        numberOfCols = when {
+            isTablet && !isLandscape -> { 3 }
+            isTablet && isLandscape -> { 2 }
+            !isTablet && !isLandscape -> { 2 }
+            !isTablet && isLandscape -> { 3 }
+            else -> { 0 }
+        }
         view.paginationRecView.layoutManager = StaggeredGridLayoutManager(numberOfCols, StaggeredGridLayoutManager.VERTICAL)
 
         initAdapter(view)
