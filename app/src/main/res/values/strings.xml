@@ -3,10 +3,12 @@
 
     <string name="giphy_image">Giphy preview image</string>
     <string name="giphy_image_details">Giphy image detrails</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="no_results">No results</string>
     <string name="search_hint">Search gifs</string>
     <string name="toolbar_title">Giphy</string>
     <string name="gif">Gif</string>
+    <string name="close_details">Close details</string>
+    <string name="details">Details</string>
 
 </resources>

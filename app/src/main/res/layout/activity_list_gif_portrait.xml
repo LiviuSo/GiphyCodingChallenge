@@ -21,9 +21,17 @@
 
         <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary">
+
+        </FrameLayout>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tablet_details_height"
                 android:id="@+id/detailsFragmentHolder"
-                android:background="@color/colorPrimaryDark"/>
+                android:gravity="center"
+                android:background="@color/cardview_shadow_start_color"/>
     </LinearLayout>
 
 </LinearLayout>

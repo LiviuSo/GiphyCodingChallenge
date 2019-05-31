@@ -11,17 +11,24 @@
             tools:context=".ui.GifDetailFragment"
             android:orientation="vertical">
 
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageDetails"
-                android:contentDescription="@string/giphy_image_details"/>
-
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:id="@+id/testTx"/>
+                android:layout_height="wrap_content"
+                android:text="@string/details"
+                android:id="@+id/testTx"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+
+        <ImageView
+                android:layout_width="@dimen/tablet_details_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageDetails"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/giphy_image_details"/>
+
 
     </LinearLayout>
 

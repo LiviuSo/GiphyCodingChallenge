@@ -1,6 +1,5 @@
 package com.example.giphycodingchallenge.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
