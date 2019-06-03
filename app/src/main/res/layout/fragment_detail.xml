@@ -19,7 +19,8 @@
                 android:gravity="center"
                 android:layout_marginTop="5dp"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="@dimen/toolbar_text_size"
+                android:layout_marginBottom="@dimen/margin2"/>
 
         <ImageView
                 android:layout_width="@dimen/tablet_details_width"
@@ -27,6 +28,7 @@
                 android:id="@+id/imageDetails"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="center"
+                android:src="@drawable/logo"
                 android:contentDescription="@string/giphy_image_details"/>
 
 

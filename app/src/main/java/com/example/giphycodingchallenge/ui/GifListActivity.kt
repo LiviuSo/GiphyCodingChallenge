@@ -63,7 +63,7 @@ class GifListActivity : AppCompatActivity() {
 
         if (isTablet()) {
             Log.d(LOG, "GifListActivity: tablet detected")
-                setContentView(R.layout.activity_list_gif)
+            setContentView(R.layout.activity_list_gif_tablet)
             setFragments(isLandscape)
         } else {
             Log.d(LOG, "GifListActivity: phone detected")
@@ -89,11 +89,16 @@ class GifListActivity : AppCompatActivity() {
     }
 
     private fun setFragments(landscape: Boolean) {
+        Log.d(LOG, "setFragments()")
         // set both list and detail frags
-        val fragList = GifListFragment.instance(landscape, isTablet(), DEFAULT_QUERY)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.listFragmentHolder, fragList, GIF_LIST_FRAG_TAG)
-            .commit()
+        setListFragment(landscape)
+        GifDetailFragment.instance(null).let {
+            Log.d(LOG, "setFragments() : $it")
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.detailsFragmentHolder, it, GIF_DETAILS_FRAG_TAG)
+                .commit()
+        }
     }
 
     private fun setListFragment(landscape: Boolean) {
@@ -155,7 +160,9 @@ class GifListActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 Log.d(LOG, "onTextChanged")
-                (this@GifListActivity.supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment).updateGifsListFromInput(s.toString())
+                (this@GifListActivity.supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment).updateGifsListFromInput(
+                    s.toString()
+                )
             }
         })
 

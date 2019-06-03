@@ -73,13 +73,24 @@ class GifListFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_list_gif, container, false)
         numberOfCols = when {
-            isTablet && !isLandscape -> { 1 }
-            isTablet && isLandscape -> { 2 }
-            !isTablet && !isLandscape -> { 2 }
-            !isTablet && isLandscape -> { 3 }
-            else -> { 0 }
+            isTablet && !isLandscape -> {
+                1
+            }
+            isTablet && isLandscape -> {
+                2
+            }
+            !isTablet && !isLandscape -> {
+                2
+            }
+            !isTablet && isLandscape -> {
+                3
+            }
+            else -> {
+                0
+            }
         }
-        view.paginationRecView.layoutManager = StaggeredGridLayoutManager(numberOfCols, StaggeredGridLayoutManager.VERTICAL)
+        view.paginationRecView.layoutManager =
+            StaggeredGridLayoutManager(numberOfCols, StaggeredGridLayoutManager.VERTICAL)
 
         initAdapter(view)
 
@@ -88,7 +99,6 @@ class GifListFragment : Fragment() {
             viewModel.getGifs(viewModel.lastQueryValue())
             view.swipeToRefreshLayout.isRefreshing = false
         }
-
         return view
     }
 
@@ -117,11 +127,12 @@ class GifListFragment : Fragment() {
             onClickPhone = onClickPhone,
             onClickTablet = onClickTablet
         )
+        adapter.notifyDataSetChanged()
         view.paginationRecView.adapter = adapter
-        fetchData(view)
+        fetchData()
     }
 
-    private fun fetchData(view: View) {
+    private fun fetchData() {
         viewModel.gifs.observe(this, Observer<PagedList<GifEntity>> {
             Log.d(LOG, "observing gifs: got ${it.size} gifs")
             adapter.submitList(it)

@@ -31,12 +31,14 @@ class GifDetailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false).apply {
-            testTx.text = param?.title ?: ""
-            this@GifDetailFragment.activity?.let {
-                Glide
-                    .with(it)
-                    .load(param?.url)
-                    .into(imageDetails)
+            if(param != null) {
+                testTx.text = param?.title
+                this@GifDetailFragment.activity?.let {
+                    Glide
+                        .with(it)
+                        .load(param?.url)
+                        .into(imageDetails)
+                }
             }
         }
     }

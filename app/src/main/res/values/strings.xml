@@ -9,6 +9,6 @@
     <string name="toolbar_title">Giphy</string>
     <string name="gif">Gif</string>
     <string name="close_details">Close details</string>
-    <string name="details">Details</string>
+    <string name="details">Gif details</string>
 
 </resources>
