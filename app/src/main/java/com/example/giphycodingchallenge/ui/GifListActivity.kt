@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
@@ -62,11 +63,7 @@ class GifListActivity : AppCompatActivity() {
 
         if (isTablet()) {
             Log.d(LOG, "GifListActivity: tablet detected")
-            if (isLandscape) {
-                setContentView(R.layout.activity_list_gif_landscape)
-            } else {
-                setContentView(R.layout.activity_list_gif_portrait)
-            }
+                setContentView(R.layout.activity_list_gif)
             setFragments(isLandscape)
         } else {
             Log.d(LOG, "GifListActivity: phone detected")
@@ -74,14 +71,7 @@ class GifListActivity : AppCompatActivity() {
             setListFragment(isLandscape)
         }
 
-        setSupportActionBar(toolbarCustom)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
         initSearch()
-
-        search.setOnClickListener {
-            showSearchBar(true)
-        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -91,16 +81,10 @@ class GifListActivity : AppCompatActivity() {
         Log.d(LOG, "GifListActivity ($this): onConfigurationChanged: isLandscape = $isLandscape")
 
         if (isTablet()) {
-            if (isLandscape) {
-                setContentView(R.layout.activity_list_gif_landscape)
-            } else {
-                setContentView(R.layout.activity_list_gif_portrait)
-            }
             (rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment).onConfigChanged(isLandscape)
             rebindFragment(GIF_DETAILS_FRAG_TAG)
         } else {
-            val frag = rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment
-            frag.onConfigChanged(isLandscape)
+            (rebindFragment(GIF_LIST_FRAG_TAG) as GifListFragment).onConfigChanged(isLandscape)
         }
     }
 
@@ -150,11 +134,17 @@ class GifListActivity : AppCompatActivity() {
         }
         searchBar.editSearchGifs.visibility = visibilityClose
         searchBar.closeSearch.visibility = visibilityClose
-        searchBar.search.visibility = visibilitySearch
+        searchBar.searchButton.visibility = visibilitySearch
     }
 
     private fun initSearch() {
+        Log.d(LOG, "Init search: $searchButton")
         showSearchBar(searchOn)
+
+        findViewById<ImageButton>(R.id.searchButton).setOnClickListener {
+            Log.d(LOG, "search onClick()")
+            showSearchBar(true)
+        }
 
         editSearchGifs.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

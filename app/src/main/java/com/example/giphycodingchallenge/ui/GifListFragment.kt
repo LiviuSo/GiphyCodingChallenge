@@ -73,7 +73,7 @@ class GifListFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_list_gif, container, false)
         numberOfCols = when {
-            isTablet && !isLandscape -> { 3 }
+            isTablet && !isLandscape -> { 1 }
             isTablet && isLandscape -> { 2 }
             !isTablet && !isLandscape -> { 2 }
             !isTablet && isLandscape -> { 3 }

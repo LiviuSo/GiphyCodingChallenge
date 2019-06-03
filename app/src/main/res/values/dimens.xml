@@ -4,9 +4,6 @@
     <dimen name="height_giphy_prev">160dp</dimen>
     <dimen name="repo_name_size">24sp</dimen>
     <dimen name="tablet_details_width">460dp</dimen>
-    <dimen name="tablet_details_height">410dp</dimen>
-    <dimen name="details_logo_width">240dp</dimen>
-    <dimen name="details_logo_height">151dp</dimen>
     <dimen name="margin">10dp</dimen>
     <dimen name="margin2">100dp</dimen>
     <dimen name="toolbar_height">60dp</dimen>
