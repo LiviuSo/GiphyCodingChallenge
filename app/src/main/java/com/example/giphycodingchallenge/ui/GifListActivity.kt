@@ -3,7 +3,10 @@ package com.example.giphycodingchallenge.ui
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.amitshekhar.DebugDB
 import com.example.giphycodingchallenge.R
@@ -14,6 +17,7 @@ import com.example.giphycodingchallenge.util.isOrientedLanscape
 import com.example.giphycodingchallenge.util.isTablet
 import com.example.giphycodingchallenge.util.rebindFragment
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 
 /**
  * GIPHY's ​GIF​ library is the largest in the world and includes millions of original GIFs directly from
@@ -46,6 +50,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 class GifListActivity : AppCompatActivity() {
 
     private var isLandscape: Boolean = false
+    private var searchOn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,8 +77,10 @@ class GifListActivity : AppCompatActivity() {
         setSupportActionBar(toolbarCustom)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        initSearch()
+
         search.setOnClickListener {
-            (this.supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment).showSearchBar(true)
+            showSearchBar(true)
         }
     }
 
@@ -127,6 +134,46 @@ class GifListActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.detailsFragmentHolder, frag, GIF_DETAILS_FRAG_TAG)
             .commit()
+    }
+
+    private fun showSearchBar(show: Boolean) {
+        searchOn = show
+        val visibilityClose = if (show) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        val visibilitySearch = if (show) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+        searchBar.editSearchGifs.visibility = visibilityClose
+        searchBar.closeSearch.visibility = visibilityClose
+        searchBar.search.visibility = visibilitySearch
+    }
+
+    private fun initSearch() {
+        showSearchBar(searchOn)
+
+        editSearchGifs.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(LOG, "onTextChanged")
+                (this@GifListActivity.supportFragmentManager.findFragmentByTag(GIF_LIST_FRAG_TAG) as GifListFragment).updateGifsListFromInput(s.toString())
+            }
+        })
+
+        searchBar.closeSearch.setOnClickListener {
+            searchOn = false
+            editSearchGifs.setText("")
+            showSearchBar(searchOn)
+        }
     }
 
     companion object {

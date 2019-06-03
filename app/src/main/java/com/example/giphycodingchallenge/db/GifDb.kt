@@ -17,7 +17,7 @@ abstract class GifDb : RoomDatabase() {
 
         @Synchronized
         fun getTheInstance(context: Context = MyApplication.myApplication): GifDb = instance ?: let {
-            val db = Room.databaseBuilder(context, GifDb::class.java, "gifs_room.db")
+            val db = Room.databaseBuilder(context, GifDb::class.java, "gifs_room.db").addMigrations()
                 .build()
             instance = db
             db

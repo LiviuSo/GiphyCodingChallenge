@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.giphycodingchallenge.db.GifEntity
 
 class GifsPagedAdapter(
-    private val quotaOfItemWidth: Int,
+    private val itemWidthScale: Int,
     private val tablet: Boolean,
     private val onClickPhone: (GifEntity) -> Unit,
     private val onClickTablet: (GifEntity) -> Unit
@@ -16,7 +16,7 @@ class GifsPagedAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return GifViewHolder.create(
             parent,
-            quotaOfItemWidth,
+            itemWidthScale,
             tablet,
             onClickPhone,
             onClickTablet
